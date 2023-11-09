@@ -1,11 +1,15 @@
 {
     "name": "tomatophp/tomato-products",
     "type": "library",
-    "description": "your package description will go here",
+    "description": "Products Manager To E-commerce",
     "keywords": [
         "php",
         "laravel",
-        "template"
+        "tomatophp",
+        "ecommerce",
+        "products",
+        "splade",
+        "vilt"
     ],
     "license": "MIT",
     "autoload": {
