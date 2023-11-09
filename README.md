@@ -1,6 +1,6 @@
 # Tomato products
 
-your package description will go here
+Products Manager To E-commerce
 
 ## Installation
 
