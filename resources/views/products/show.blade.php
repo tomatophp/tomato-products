@@ -44,7 +44,7 @@
             name="productReviews"
             :model="$model"
             :table="\Modules\TomatoProducts\Tables\ProductReviewTable::class"
-            view="tomatoproducts::product-reviews.index"
+            view="tomato-products::product-reviews.index"
         ></x-tomato-admin-relations>
     </x-tomato-admin-relations-group>
 </x-tomato-admin-container>

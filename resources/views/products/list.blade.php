@@ -139,7 +139,7 @@
                     <div class="border-t border-gray-200 flex justify-between ">
                         <x-splade-link modal :href="route('admin.products.edit', $item->id)" class="py-3 px-4 w-full flex flex-col items-center justify-center gap-2">
                             <div class="flex justify-center gap-2 mt-1">
-                                <div >
+                                <div>
                                     <i class="bx bx-edit"></i>
                                 </div>
                                 <div class="text-sm">
@@ -215,12 +215,12 @@
                                 icon="bx bx-trash"
                             />
                         </x-tomato-admin-dropdown>
-                        </div>
-                        <button class="py-3 px-4 border-t border-gray-200 w-full text-center bg-primary-500 text-white text-sm rounded-b-lg" type="submit">
-                            {{__('Save')}}
-                        </button>
                     </div>
-                </x-splade-form>
+                    <button class="py-3 px-4 border-t border-gray-200 w-full text-center bg-primary-500 text-white text-sm rounded-b-lg" type="submit">
+                        {{__('Save')}}
+                    </button>
+                </div>
+           </x-splade-form>
     @endforeach
 </div>
 @if($table->resource->isEmpty())
