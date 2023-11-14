@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
     @foreach($table->resource as $itemKey => $item)
         @php $itemPrimaryKey = $table->findPrimaryKey($item) @endphp
            <x-splade-form method="POST" preserve-scroll  action="{{route('admin.products.update', $item->id)}}" :default="array_merge($item->toArray(), ['stock' => $item->meta('stock')])">

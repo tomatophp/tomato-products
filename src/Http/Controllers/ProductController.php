@@ -150,8 +150,18 @@ class ProductController extends Controller
         $response->record->tags()->sync($request->get('tags'));
         $response->record->categories()->sync($request->get('categories'));
 
-        $request->get('has_options') == '1' ? $response->record->meta('options', $request->get('options')) : $response->record->meta('options', (object)[]);
-        $request->get('has_options') == '1' ? $response->record->meta('qty', $request->get('qty')) : $response->record->meta('qty', (object)[]);
+        if($request->has('has_options') && $request->get('has_options') == '1'){
+            if(is_array($request->get('options'))){
+                $response->record->meta('options', $request->get('options'));
+            }
+            if(is_array($request->get('qty'))){
+                $response->record->meta('qty', $request->get('qty'));
+            }
+        }
+        elseif($request->has('has_options') && $request->get('has_options') == '0') {
+            $response->record->meta('options', (object)[]);
+            $response->record->meta('qty', (object)[]);
+        }
         $response->record->meta('prices', $request->get('prices'));
         $response->record->meta('brand', $request->get('brand'));
         $response->record->meta('unit', $request->get('unit'));

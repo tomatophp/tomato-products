@@ -1,7 +1,19 @@
 <x-tomato-admin-container label="{{__('Update Product SEO')}}">
-    <x-splade-form class="flex flex-col space-y-4" action="{{route('admin.products.update', $model->id)}}" method="post" :default="array_merge($model->toArray(),[
-        'form_lang' => app()->getLocale()
-    ])">
+    <x-splade-form class="flex flex-col space-y-4" action="{{route('admin.products.update', $model->id)}}" method="post" :default="[
+        'form_lang' => app()->getLocale(),
+        'description' => [
+            'ar' => $model->getTranslation('description','ar') ?? '',
+            'en' => $model->getTranslation('description','en') ?? '',
+        ],
+        'details' => [
+            'ar' => $model->getTranslation('details','ar') ?? '',
+            'en' => $model->getTranslation('details','en') ?? '',
+        ],
+        'category_id' => $model->category_id,
+        'categories' => $model->categories,
+        'tags' => $model->tags,
+        'brand' => $model->brand,
+    ]">
         <div class="grid grid-cols-2 gap-4">
             <x-tomato-admin-rich class="col-span-2" v-if="form.form_lang === 'ar'" :label="__('Description [AR]')" name="description.ar" :placeholder="__('Description [AR]')" />
             <x-tomato-admin-rich class="col-span-2" v-if="form.form_lang === 'en'" :label="__('Description [EN]')" name="description.en" :placeholder="__('Description [EN]')" />
@@ -44,6 +56,9 @@
 
         <div class="flex justify-start gap-2 pt-3">
             <x-tomato-admin-submit label="{{__('Save')}}" :spinner="true" />
+            <x-tomato-admin-button type="button" @click.prevent="form.form_lang === 'ar' ? form.form_lang = 'en' : form.form_lang = 'ar'">
+                @{{ form.form_lang }}
+            </x-tomato-admin-button>
             <x-tomato-admin-button warning type="link" :href="route('admin.products.category.index')" label="{{__('Add Categories')}}"/>
             <x-tomato-admin-button warning type="link" :href="route('admin.products.tags.index')" label="{{__('Add Tags')}}"/>
             <x-tomato-admin-button warning type="link" :href="route('admin.products.brands.index')" label="{{__('Add Brands')}}"/>
