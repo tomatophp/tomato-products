@@ -43,7 +43,7 @@
         <x-tomato-admin-relations
             name="productReviews"
             :model="$model"
-            :table="\Modules\TomatoProducts\Tables\ProductReviewTable::class"
+            :table="\TomatoPHP\TomatoProducts\Tables\ProductReviewTable::class"
             view="tomato-products::product-reviews.index"
         ></x-tomato-admin-relations>
     </x-tomato-admin-relations-group>
