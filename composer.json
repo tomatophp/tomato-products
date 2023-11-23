@@ -1,7 +1,7 @@
 {
     "name": "tomatophp/tomato-products",
     "type": "library",
-    "description": "Products Manager To E-commerce",
+    "description": "A Full Products Management With tons of functions and multi variations and prices, stock.",
     "keywords": [
         "php",
         "laravel",

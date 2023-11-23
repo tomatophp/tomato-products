@@ -1,12 +1,15 @@
-# Tomato products
+![Screenshot](https://github.com/tomatophp/tomato-products/blob/master/art/screenshot.png)
 
-Products Manager To E-commerce
+# Tomato Products
+
+A Full Products Management With tons of functions and multi variations and prices, stock.
 
 ## Installation
 
 ```bash
 composer require tomatophp/tomato-products
 ```
+
 after install your package please run this command
 
 ```bash
@@ -41,11 +44,11 @@ php artisan vendor:publish --tag="tomato-products-migrations"
 
 ## Support
 
-you can join our discord server to get support [TomatoPHP](https://discord.gg/Xqmt35Uh)
+you can join our discord server to get support [TomatoPHP](https://discord.com/invite/VZc8nBJ3ZU)
 
 ## Docs
 
-you can check docs of this package on [Docs](https://docs.tomatophp.com/plugins/laravel-package-generator)
+you can check docs of this package on [Docs](https://docs.tomatophp.com/plugins/tomato-products)
 
 ## Changelog
 
@@ -57,7 +60,7 @@ Please see [SECURITY](SECURITY.md) for more information about security.
 
 ## Credits
 
-- [Tomatophp](mailto:git@queentechsoltions.net)
+- [Fady Mondy](mailto:info@3x1.io)
 
 ## License
 
