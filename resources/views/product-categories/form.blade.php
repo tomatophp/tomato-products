@@ -1,6 +1,8 @@
 <x-tomato-admin-container :label="isset($item) ? __('Update Category') : __('Add Category')">
     <x-splade-form method="POST" action="{{route('admin.products.category.store')}}" :default="isset($item) ? $item : ['activated' => true, 'name' => ['ar' => '', 'en'=> '']]">
         <div class="py-4 grid grid-cols-1 gap-4">
+            <x-splade-file filepond preview name="image" label="{{__('Image')}}" />
+
             <x-splade-select
                 name="parent_id"
                 :label="__('Parent')"

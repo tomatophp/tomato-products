@@ -12,6 +12,7 @@ use TomatoPHP\TomatoCategory\Models\Category;
  * @property integer $id
  * @property integer $category_id
  * @property string $name
+ * @property string $keywords
  * @property string $slug
  * @property string $sku
  * @property string $barcode
@@ -50,12 +51,12 @@ class Product extends Model implements HasMedia
     use InteractsWithMedia;
     use HasTranslations;
 
-    public $translatable = ['name', 'about', 'description', 'details'];
+    public $translatable = ['name', 'about', 'description', 'details', 'keywords'];
 
     /**
      * @var array
      */
-    protected $fillable = ['category_id', 'name', 'slug', 'sku', 'barcode', 'type', 'about', 'description', 'details', 'price', 'discount', 'discount_to', 'vat', 'is_in_stock', 'is_activated', 'is_shipped', 'is_trend', 'has_options', 'has_multi_price', 'has_unlimited_stock', 'has_max_cart', 'min_cart', 'max_cart', 'has_stock_alert', 'min_stock_alert', 'max_stock_alert', 'created_at', 'updated_at'];
+    protected $fillable = ['category_id', 'keywords','name', 'slug', 'sku', 'barcode', 'type', 'about', 'description', 'details', 'price', 'discount', 'discount_to', 'vat', 'is_in_stock', 'is_activated', 'is_shipped', 'is_trend', 'has_options', 'has_multi_price', 'has_unlimited_stock', 'has_max_cart', 'min_cart', 'max_cart', 'has_stock_alert', 'min_stock_alert', 'max_stock_alert', 'created_at', 'updated_at'];
 
     protected $casts = [
         'is_in_stock' => 'boolean',

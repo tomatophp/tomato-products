@@ -15,7 +15,6 @@
         <x-splade-input :label="__('Weight')" :placeholder="__('Weight')" type='number' name="weight" />
         <div class="flex justify-start gap-2 pt-3">
             <x-tomato-admin-submit label="{{__('Save')}}" :spinner="true" />
-            <x-tomato-admin-button warning type="link" :href="route('admin.products.units.index')" label="{{__('Add Units')}}"/>
             <x-tomato-admin-button secondary @click.prevent="modal.close" label="{{__('Cancel')}}"/>
         </div>
     </x-splade-form>

@@ -59,7 +59,6 @@
         </div>
         <div class="flex justify-start gap-2 pt-3">
             <x-tomato-admin-submit label="{{__('Save')}}" :spinner="true" />
-            <x-tomato-admin-button warning label="{{__('Add Options')}}" href="{{route('admin.products.options.index')}}" />
             <x-tomato-admin-button secondary @click.prevent="modal.close" label="{{__('Cancel')}}"/>
         </div>
     </x-splade-form>
