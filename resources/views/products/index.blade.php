@@ -12,6 +12,7 @@
         <div class="mx-auto">
             <x-splade-table :for="$table" striped custom-body custom-body-view="tomato-products::products.list">
                 <x-slot:actions>
+                    <x-tomato-admin-table-action secondary icon="bx bx-import" modal href="{{route('admin.products.import')}}" label="{{__('Import Product')}}" />
                     <x-tomato-admin-table-action secondary icon="bx bx-package" href="{{route('admin.products.options.index')}}" label="{{__('Product Options')}}" />
                     <x-tomato-admin-table-action secondary icon="bx bx-category" href="{{route('admin.products.category.index')}}" label="{{__('Product Categories')}}" />
                     <x-tomato-admin-table-action secondary icon="bx bx-tag" href="{{route('admin.products.tags.index')}}" label="{{__('Product Tags')}}" />

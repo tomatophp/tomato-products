@@ -21,6 +21,7 @@
         <x-splade-input :label="__('Discount')" :placeholder="__('Discount')" type='number' name="discount" />
         <x-splade-input date time :label="__('Discount To')" :placeholder="__('Discount To')" name="discount_to" />
         <x-splade-input :label="__('Vat')" :placeholder="__('Vat')" type='number' name="vat" />
+        <x-splade-checkbox :label="__('Is Activated')"  name="is_activated" />
 
         </div>
         <div class="flex justify-start gap-2 pt-3">

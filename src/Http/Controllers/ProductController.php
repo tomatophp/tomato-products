@@ -8,6 +8,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use Maatwebsite\Excel\Facades\Excel;
+use TomatoPHP\TomatoProducts\Import\ImportProducts;
 use TomatoPHP\TomatoProducts\Models\Product;
 use TomatoPHP\TomatoProducts\Transformers\ProductsResource;
 use ProtoneMedia\Splade\Facades\Toast;
@@ -227,6 +229,46 @@ class ProductController extends Controller
         ]);
 
         Toast::success(__('Product updated successfully'))->autoDismiss(2);
+        return back();
+    }
+
+    public function import(){
+        return view('tomato-products::products.import');
+    }
+
+    public function importStore(Request $request){
+        $request->validate([
+            "file" => "required|file|mimes:xlsx,doc,docx,ppt,pptx,ods,odt,odp"
+        ]);
+
+        $collection = Excel::toArray(new ImportProducts(), $request->file('file'));
+        unset($collection[0][0]);
+        foreach ($collection[0] as $item){
+            $checkIfProductExists = Product::where('sku', $item[1])->where('barcode', $item[2])->first();
+            if($checkIfProductExists){
+                $checkIfProductExists->name = $item[0]??null;
+                $checkIfProductExists->slug = Str::of($item[0])->slug('-')??null;
+                $checkIfProductExists->sku = $item[1]??Str::random(6);
+                $checkIfProductExists->barcode = $item[2]??null;
+                $checkIfProductExists->price = $item[3]??0;
+                $checkIfProductExists->discount = $item[4]??0;
+                $checkIfProductExists->vat = $item[5]??0;
+                $checkIfProductExists->save();
+            }
+            else {
+                $product = new Product();
+                $product->name = $item[0]??null;
+                $product->slug = Str::of($item[0])->slug('-')??null;
+                $product->sku = $item[1]??Str::random(6);
+                $product->barcode = $item[2]??null;
+                $product->price = $item[3]??0;
+                $product->discount = $item[4]??0;
+                $product->vat = $item[5]??0;
+                $product->save();
+            }
+        }
+
+        Toast::success(__('Your File Has Been Imported Successfully'))->autoDismiss(2);
         return back();
     }
 }

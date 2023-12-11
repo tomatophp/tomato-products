@@ -15,7 +15,7 @@ class ProductTable extends AbstractTable
      *
      * @return void
      */
-    public function __construct(public Builder|null $query=null)
+    public function __construct(public mixed $query=null)
     {
         if(!$query){
             $this->query = \TomatoPHP\TomatoProducts\Models\Product::query();

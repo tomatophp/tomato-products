@@ -59,6 +59,8 @@ Route::middleware(['web','auth', 'splade', 'verified'])->name('admin.')->group(f
     Route::get('admin/products', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'index'])->name('products.index');
     Route::get('admin/products/api', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'api'])->name('products.api');
     Route::get('admin/products/create', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'create'])->name('products.create');
+    Route::get('admin/products/import', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'import'])->name('products.import');
+    Route::post('admin/products/import-store', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'importStore'])->name('products.import.store');
     Route::post('admin/products', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'store'])->name('products.store');
     Route::get('admin/products/{model}', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'show'])->name('products.show');
     Route::get('admin/products/{model}/edit', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'edit'])->name('products.edit');
