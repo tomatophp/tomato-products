@@ -12,7 +12,7 @@
           <x-tomato-admin-row :label="__('Vat')" :value="$model->vat" type="number" />
           <x-tomato-admin-row :label="__('Description')" :value="$model->description" type="rich" />
           <x-tomato-admin-row :label="__('Details')" :value="$model->details" type="rich" />
-          <x-tomato-admin-row :label="__('Main Category')" :value="$model->category->name" type="text" />
+          <x-tomato-admin-row :label="__('Main Category')" :value="$model->category?->name" type="text" />
           <x-tomato-admin-row :label="__('Is shipped')" :value="$model->is_shipped" type="bool" />
           <x-tomato-admin-row :label="__('Is activated')" :value="$model->is_activated" type="bool" />
           <x-tomato-admin-row :label="__('Is trend')" :value="$model->is_trend" type="bool" />

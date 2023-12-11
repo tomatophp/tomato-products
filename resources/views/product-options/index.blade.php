@@ -15,7 +15,7 @@
                 <div class="flex flex-col items-center justify-center">
                     {{$type->name}}
                 </div>
-                <div>
+                <div class="flex justifiy-start gap-4">
                     <x-tomato-admin-button type="link" :modal="true" :href="route('admin.products.options.create', $type->key)">
                         {{__('Add') . ' ' . $type->name}}
                     </x-tomato-admin-button>
