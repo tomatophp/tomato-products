@@ -60,11 +60,17 @@ class ProductCategoryController extends Controller
 
             $getItemIfExists->update($request->all());
 
+            if($request->hasFile('image')){
+                $getItemIfExists->clearMediaCollection('image');
+                $getItemIfExists->addMedia($request->file('image'))->toMediaCollection('image');
+            }
+
             Toast::success(__('Category updated successfully!'))->autoDismiss(2);
             return back();
         }
         else {
             $request->validate([
+                "image" => "nullable|file|max:2048",
                 "parent_id" => "nullable|integer|exists:categories,id",
                 "name" => "required|array",
                 "slug" => "required|string|max:255|unique:categories,slug",
@@ -76,7 +82,10 @@ class ProductCategoryController extends Controller
                 "menu" => "nullable|boolean",
             ]);
 
-            Category::create($request->all());
+            $category = Category::create($request->all());
+            if($request->hasFile('image')){
+                $category->addMedia($request->file('image'))->toMediaCollection('image');
+            }
 
             Toast::success(__('Category created successfully!'))->autoDismiss(2);
             return back();
@@ -84,6 +93,7 @@ class ProductCategoryController extends Controller
     }
 
     public function edit(Category $item){
+        $item->image = $item->getMedia('image')->first()?->getUrl();
         return view('tomato-products::product-categories.form', [
             "item" => $item
         ]);
