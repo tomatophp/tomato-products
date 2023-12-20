@@ -176,7 +176,7 @@
                                     :label="__('Copy Product Link')"
                                     type="copy"
                                     black
-                                    text="{{url('products/' . $item->slug)}}"
+                                    text="{{url('shop/product/' . $item->slug)}}"
                                     icon="bx bx-link"
                                 />
                                 <x-tomato-admin-dropdown-item
