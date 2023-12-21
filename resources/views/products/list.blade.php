@@ -2,7 +2,7 @@
     @foreach($table->resource as $itemKey => $item)
         @php $itemPrimaryKey = $table->findPrimaryKey($item) @endphp
            <x-splade-form method="POST" preserve-scroll  action="{{route('admin.products.update', $item->id)}}" :default="array_merge($item->toArray(), ['stock' => $item->meta('stock')])">
-                <div class="rounded-lg bg-white border border-gray-200 shadow-sm">
+                <div class="rounded-lg bg-white dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 border border-gray-200 shadow-sm">
                     <div class="flex justify-between gap-4  p-4 ">
                         <div class="flex justify-start gap-2">
                             @if($hasBulkActions = $table->hasBulkActions())
@@ -27,35 +27,118 @@
                                         @endif
                                     </div>
                                 </div>
+
                             @endif
                         </div>
                         @if(auth('web')->user()->can('admin.products.update'))
-                            <x-tomato-admin-tooltip text="{{$item->is_trend ? __('Product Trending') : __('Product Not Trend')}}">
-                                <button @click.prevent="form.is_trend = !@js($item->is_trend); form.submit()">
-                                    @if($item->is_trend)
-                                        <div class="bg-red-500 text-white rounded-full flex flex-col items-center justify-center p-2">
-                                            <i class="bx bx-pin"></i>
-                                        </div>
-                                    @else
-                                        <div class="bg-gray-200 text-gray-300 rounded-full flex flex-col items-center justify-center p-2">
-                                            <i class="bx bx-pin"></i>
-                                        </div>
-                                    @endif
-                                </button>
-                            </x-tomato-admin-tooltip>
+                            <div class="flex justifiy-end gap-2">
+                                <div>
+                                    <x-tomato-admin-tooltip text="{{$item->is_trend ? __('Product Trending') : __('Product Not Trend')}}">
+                                        <button @click.prevent="form.is_trend = !@js($item->is_trend); form.submit()">
+                                            @if($item->is_trend)
+                                                <div class="bg-danger-500 hover:bg-danger-400 text-white rounded-full flex flex-col items-center justify-center p-2">
+                                                    <i class="bx bx-pin"></i>
+                                                </div>
+                                            @else
+                                                <div class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-400 text-gray-300 rounded-full flex flex-col items-center justify-center p-2">
+                                                    <i class="bx bx-pin"></i>
+                                                </div>
+                                            @endif
+                                        </button>
+                                    </x-tomato-admin-tooltip>
+                                </div>
+                                <div>
+                                    <x-tomato-admin-dropdown icon="bx bx-cog" class="bg-primary-600 hover:bg-primary-500 text-white rounded-full flex flex-col items-center justify-center p-2">
+                                        <x-tomato-admin-dropdown-item
+                                            type="link"
+                                            :href="route('admin.products.toggle', $item->id) . '?action=is_activated'"
+                                            :label="$item->is_activated ? __('Hide Product') : __('Show Product')"
+                                            :success="!$item->is_activated"
+                                            :danger="$item->is_activated"
+                                            :icon="$item->is_activated ? 'bx bx-hide' : 'bx bx-show'"
+                                        />
+                                        <x-tomato-admin-dropdown-item
+                                            black
+                                            modal
+                                            type="link"
+                                            :href="route('admin.products.edit', $item->id)"
+                                            :label="__('Edit Product')"
+                                            icon="bx bx-edit"
+                                        />
+                                        <x-tomato-admin-dropdown-item
+                                            :label="__('Copy Product Link')"
+                                            type="copy"
+                                            black
+                                            text="{{url('shop/product/' . $item->slug)}}"
+                                            icon="bx bx-link"
+                                        />
+                                        <x-tomato-admin-dropdown-item
+                                            confirm
+                                            black
+                                            type="link"
+                                            :href="route('admin.products.clone', $item->id)"
+                                            :label="__('Clone Product')"
+                                            icon="bx bx-copy"
+                                        />
+                                        <x-tomato-admin-dropdown-item
+                                            black
+                                            modal
+                                            type="link"
+                                            :href="route('admin.products.actions.seo', $item->id)"
+                                            :label="__('Product SEO')"
+                                            icon="bx bx-search"
+                                        />
+                                        <x-tomato-admin-dropdown-item
+                                            black
+                                            modal
+                                            type="link"
+                                            :href="route('admin.products.actions.shipping', $item->id)"
+                                            :label="__('Product Shipping')"
+                                            icon="bx bxs-truck"
+                                        />
+                                        <x-tomato-admin-dropdown-item
+                                            black
+                                            modal
+                                            type="link"
+                                            :href="route('admin.products.actions.prices', $item->id)"
+                                            :label="__('Product Prices')"
+                                            icon="bx bx-money"
+                                        />
+                                        <x-tomato-admin-dropdown-item
+                                            black
+                                            type="link"
+                                            :href="route('admin.products.show', $item->id)"
+                                            :label="__('Product Reviews')"
+                                            icon="bx bx-star"
+                                        />
+                                        <x-tomato-admin-dropdown-item
+                                            :href="route('admin.products.destroy', $item->id)"
+                                            confirm="{{trans('tomato-admin::global.crud.delete-confirm')}}"
+                                            confirm-text="{{trans('tomato-admin::global.crud.delete-confirm-text')}}"
+                                            confirm-button="{{trans('tomato-admin::global.crud.delete-confirm-button')}}"
+                                            cancel-button="{{trans('tomato-admin::global.crud.delete-confirm-cancel-button')}}"
+                                            method="delete"
+                                            type="link"
+                                            danger
+                                            :label="__('Delete Product')"
+                                            icon="bx bx-trash"
+                                        />
+                                    </x-tomato-admin-dropdown>
+
+
+                                </div>
+                            </div>
                         @endif
                     </div>
                     <div class="grid grid-cols-8 gap-4 px-4">
                         <div class="col-span-2">
-
-                            <x-tomato-admin-tooltip text="{{__('Update Product Media')}}" class="bg-cover bg-center w-full h-full rounded-md" style="background-image: url('{{$item->getMedia('featured_image')->first()?->getUrl() ?: url('placeholder.webp')}}')" >
+                            <x-tomato-admin-tooltip text="{{__('Update Product Media')}}" class="bg-cover bg-center w-full h-full rounded-md" style="background-image: url('{{$item->getMedia('featudanger_image')->first()?->getUrl() ?: url('placeholder.webp')}}')" >
                                 @if(auth('web')->user()->can('admin.products.actions.media'))
                                     <x-splade-link modal :href="route('admin.products.actions.media', $item->id)" class="relative top-2 left-2 w-6 h-6 text-white text-center flex flex-col items-center justify-center rounded-full bg-success-600">
                                         <i class="bx bx-plus"></i>
                                     </x-splade-link>
                                 @endif
                             </x-tomato-admin-tooltip>
-
                         </div>
                         <div class="col-span-6 flex flex-col gap-2">
                             <x-tomato-admin-tooltip text="{{__('Product Name')}}">
@@ -152,88 +235,7 @@
                         </div>
                     </div>
                     @if(auth('web')->user()->can('admin.products.update'))
-                        <div class="border-t border-gray-200 flex justify-between ">
-                            <x-splade-link modal :href="route('admin.products.edit', $item->id)" class="py-3 px-4 w-full flex flex-col items-center justify-center gap-2">
-                                <div class="flex justify-center gap-2 mt-1">
-                                    <div>
-                                        <i class="bx bx-edit"></i>
-                                    </div>
-                                    <div class="text-sm">
-                                        {{__('Edit Product')}}
-                                    </div>
-                                </div>
-                            </x-splade-link>
-                            <x-tomato-admin-dropdown label="{{__('More')}}" class="border-l border-gray-200">
-                                <x-tomato-admin-dropdown-item
-                                      type="link"
-                                      :href="route('admin.products.toggle', $item->id) . '?action=is_activated'"
-                                      :label="$item->is_activated ? __('Hide Product') : __('Show Product')"
-                                      :success="!$item->is_activated"
-                                      :danger="$item->is_activated"
-                                      :icon="$item->is_activated ? 'bx bx-hide' : 'bx bx-show'"
-                                />
-                                <x-tomato-admin-dropdown-item
-                                    :label="__('Copy Product Link')"
-                                    type="copy"
-                                    black
-                                    text="{{url('shop/product/' . $item->slug)}}"
-                                    icon="bx bx-link"
-                                />
-                                <x-tomato-admin-dropdown-item
-                                    confirm
-                                    black
-                                    type="link"
-                                    :href="route('admin.products.clone', $item->id)"
-                                    :label="__('Clone Product')"
-                                    icon="bx bx-copy"
-                                />
-                                <x-tomato-admin-dropdown-item
-                                    black
-                                    modal
-                                    type="link"
-                                    :href="route('admin.products.actions.seo', $item->id)"
-                                    :label="__('Product SEO')"
-                                    icon="bx bx-search"
-                                />
-                                <x-tomato-admin-dropdown-item
-                                    black
-                                    modal
-                                    type="link"
-                                    :href="route('admin.products.actions.shipping', $item->id)"
-                                    :label="__('Product Shipping')"
-                                    icon="bx bxs-truck"
-                                />
-                                <x-tomato-admin-dropdown-item
-                                    black
-                                    modal
-                                    type="link"
-                                    :href="route('admin.products.actions.prices', $item->id)"
-                                    :label="__('Product Prices')"
-                                    icon="bx bx-money"
-                                />
-                                <x-tomato-admin-dropdown-item
-                                    black
-                                    type="link"
-                                    :href="route('admin.products.show', $item->id)"
-                                    :label="__('Product Reviews')"
-                                    icon="bx bx-star"
-                                />
-                                <x-tomato-admin-dropdown-item
-                                    :href="route('admin.products.destroy', $item->id)"
-                                    confirm="{{trans('tomato-admin::global.crud.delete-confirm')}}"
-                                    confirm-text="{{trans('tomato-admin::global.crud.delete-confirm-text')}}"
-                                    confirm-button="{{trans('tomato-admin::global.crud.delete-confirm-button')}}"
-                                    cancel-button="{{trans('tomato-admin::global.crud.delete-confirm-cancel-button')}}"
-                                    method="delete"
-                                    type="link"
-                                    danger
-                                    :label="__('Delete Product')"
-                                    icon="bx bx-trash"
-                                />
-                            </x-tomato-admin-dropdown>
-                        </div>
-
-                        <button class="py-3 px-4 border-t border-gray-200 w-full text-center bg-primary-500 text-white text-sm rounded-b-lg" type="submit">
+                        <button class="py-3 px-4 border-t border-gray-200 dark:border-gray-700 font-bold w-full text-center bg-primary-500 dark:bg-gray-700 text-white text-sm rounded-b-lg" type="submit">
                             {{__('Save')}}
                         </button>
                     @endif
