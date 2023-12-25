@@ -154,13 +154,16 @@
                     </div>
                     <div class="grid grid-cols-8 gap-4 px-4">
                         <div class="col-span-2">
-                            <x-tomato-admin-tooltip text="{{__('Update Product Media')}}" class="bg-cover bg-center w-full h-full rounded-md" style="background-image: url('{{$item->getMedia('featudanger_image')->first()?->getUrl() ?: url('placeholder.webp')}}')" >
-                                @if(auth('web')->user()->can('admin.products.actions.media'))
-                                    <x-splade-link modal :href="route('admin.products.actions.media', $item->id)" class="relative top-2 left-2 w-6 h-6 text-white text-center flex flex-col items-center justify-center rounded-full bg-success-600">
-                                        <i class="bx bx-plus"></i>
-                                    </x-splade-link>
-                                @endif
-                            </x-tomato-admin-tooltip>
+                            <div class="bg-cover bg-center w-full h-full rounded-md" style="background-image: url('{{$item->getMedia('featured_image')->first()?->getUrl() ?: url('placeholder.webp')}}')" >
+                                <x-tomato-admin-tooltip text="{{__('Update Product Media')}}" >
+                                    @if(auth('web')->user()->can('admin.products.actions.media'))
+                                        <x-splade-link modal :href="route('admin.products.actions.media', $item->id)" class="relative top-2 left-2 w-6 h-6 text-white text-center flex flex-col items-center justify-center rounded-full bg-success-600">
+                                            <i class="bx bx-plus"></i>
+                                        </x-splade-link>
+                                    @endif
+                                </x-tomato-admin-tooltip>
+                            </div>
+
                         </div>
                         <div class="col-span-6 flex flex-col gap-2">
                             <x-tomato-admin-tooltip text="{{__('Product Name')}}">
