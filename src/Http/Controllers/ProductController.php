@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
+use TomatoPHP\TomatoCategory\Models\Category;
+use TomatoPHP\TomatoOrders\Models\Order;
 use TomatoPHP\TomatoProducts\Import\ImportProducts;
 use TomatoPHP\TomatoProducts\Models\Product;
 use TomatoPHP\TomatoProducts\Transformers\ProductsResource;
@@ -34,12 +36,21 @@ class ProductController extends Controller
      */
     public function index(Request $request): View|JsonResponse
     {
+        $categories = Category::where('for', 'product-categories')->get();
+        $query = Product::query();
+        if($request->has('filter') && isset($request->get('filter')['category_id'])){
+            $query->where('category_id', $request->get('filter')['category_id']);
+        }
         return Tomato::index(
             request: $request,
             model: $this->model,
             view: 'tomato-products::products.index',
             table: \TomatoPHP\TomatoProducts\Tables\ProductTable::class,
-            resource: ProductsResource::class
+            resource: ProductsResource::class,
+            query: $query,
+            data: [
+                "categories" => $categories
+            ]
         );
     }
 
@@ -270,5 +281,44 @@ class ProductController extends Controller
 
         Toast::success(__('Your File Has Been Imported Successfully'))->autoDismiss(2);
         return back();
+    }
+
+    public function inventoryAttach(Request $request)
+    {
+        $request->validate([
+            "ids" => "required|string"
+        ]);
+
+        $ids = explode(',', $request->get('ids'));
+        $products = Product::whereIn('id', $ids)->get();
+        return view('tomato-products::products.inventory-attach', compact('products', 'ids'));
+    }
+
+    public function orderAttach(Request $request)
+    {
+        $request->validate([
+            "ids" => "required|string"
+        ]);
+
+        $ids = explode(',', $request->get('ids'));
+        $products = Product::whereIn('id', $ids)->get();
+        return view('tomato-products::products.order-attach', compact('products', 'ids'));
+    }
+
+    public function printOrders(Request $request)
+    {
+        $request->validate([
+            "product_id" => "required|exists:products,id"
+        ]);
+
+
+        $orders = Order::query();
+        $orders->whereHas('ordersItems', function ($query) use ($request){
+            $query->where('product_id', $request->get('product_id'));
+        });
+        $orders = $orders->get();
+        return view('tomato-products::products.print-orders', [
+            "orders" => $orders
+        ]);
     }
 }

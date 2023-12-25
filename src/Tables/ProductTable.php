@@ -7,6 +7,8 @@ use ProtoneMedia\Splade\AbstractTable;
 use ProtoneMedia\Splade\Facades\Toast;
 use ProtoneMedia\Splade\SpladeTable;
 use Illuminate\Database\Eloquent\Builder;
+use TomatoPHP\TomatoInventory\Facades\TomatoInventory;
+use TomatoPHP\TomatoOrders\Facades\TomatoOrdering;
 use TomatoPHP\TomatoRoles\Services\TomatoRoles;
 
 class ProductTable extends AbstractTable
@@ -61,6 +63,40 @@ class ProductTable extends AbstractTable
                 label: trans('tomato-admin::global.search'),
                 columns: ['id','name','sku','barcode',]
             )
+            ->selectFilter(
+                label: __('Type'),
+                key: 'type',
+                options: [
+                    'product' =>  __('Product'),
+                    'digital' =>  __('Digital'),
+                ],
+            )
+            ->bulkAction(
+                label: __('Attach Category'),
+                type: 'modal',
+                href: route('admin.products.category.attach'),
+                style:'primary'
+            )
+            ->boolFilter(
+                label: __('Is Activated?'),
+                key: 'is_activated'
+            )
+            ->boolFilter(
+                label: __('Is Trend?'),
+                key: 'is_trend'
+            )
+            ->boolFilter(
+                label: __('Is Shipped?'),
+                key: 'is_shipped'
+            )
+            ->boolFilter(
+                label: __('Has Options?'),
+                key: 'has_options'
+            )
+            ->boolFilter(
+                label: __('Has unlimited stock?'),
+                key: 'has_unlimited_stock'
+            )
             ->defaultSort('id', 'desc')
             ->column(
                 key: 'id',
@@ -75,6 +111,7 @@ class ProductTable extends AbstractTable
             ->column(
                 key: 'name',
                 label: __('Name'),
+                searchable: true,
                 sortable: true
             )
             ->column(
@@ -85,11 +122,13 @@ class ProductTable extends AbstractTable
             ->column(
                 key: 'sku',
                 label: __('Sku'),
+                searchable: true,
                 sortable: true
             )
             ->column(
                 key: 'barcode',
                 label: __('Barcode'),
+                searchable: true,
                 sortable: true
             )
             ->column(
@@ -222,6 +261,26 @@ class ProductTable extends AbstractTable
                 confirm: true
             );
             $table->export();
+        }
+
+        if(class_exists(TomatoInventory::class)){
+            $table->bulkAction(
+                label: __('Create Inventory Request'),
+                type: 'modal',
+                href: route('admin.products.inventory.attach'),
+                style:'primary'
+            );
+
+        }
+
+        if(class_exists(TomatoOrdering::class)){
+            $table->bulkAction(
+                label: __('Create New Order'),
+                type: 'modal',
+                href: route('admin.products.orders.attach'),
+                style:'primary'
+            );
+
         }
     }
 }

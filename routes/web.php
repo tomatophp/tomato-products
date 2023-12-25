@@ -15,6 +15,8 @@ Route::middleware(['web','auth', 'splade', 'verified'])->prefix('admin/products/
 Route::middleware(['web','auth', 'splade', 'verified'])->prefix('admin/products/category')->name('admin.products.category.')->group(function () {
     Route::get('/', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductCategoryController::class, 'index'])->name('index');
     Route::get('/create', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductCategoryController::class, 'create'])->name('create');
+    Route::get('/attach', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductCategoryController::class, 'category'])->name('attach');
+    Route::post('/attach', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductCategoryController::class, 'attach'])->name('attach.store');
     Route::post('/create', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductCategoryController::class, 'store'])->name('store');
     Route::get('/edit/{item}', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductCategoryController::class, 'edit'])->name('edit');
     Route::delete('/delete/{item}', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductCategoryController::class, 'destroy'])->name('delete');
@@ -55,8 +57,14 @@ Route::middleware(['web','auth', 'splade', 'verified'])->name('admin.products.ac
     Route::get('admin/products/{model}/prices', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductPricesController::class, 'index'])->name('prices');
 });
 
+Route::middleware(['web','auth', 'verified'])->group(function (){
+    Route::get('admin/products/print/orders', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'printOrders'])->name('admin.products.print.orders');
+});
+
 Route::middleware(['web','auth', 'splade', 'verified'])->name('admin.')->group(function () {
     Route::get('admin/products', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'index'])->name('products.index');
+    Route::get('admin/products/orders/attach', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'orderAttach'])->name('products.orders.attach');
+    Route::get('admin/products/inventory/attach', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'inventoryAttach'])->name('products.inventory.attach');
     Route::get('admin/products/api', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'api'])->name('products.api');
     Route::get('admin/products/create', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'create'])->name('products.create');
     Route::get('admin/products/import', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'import'])->name('products.import');
@@ -69,6 +77,8 @@ Route::middleware(['web','auth', 'splade', 'verified'])->name('admin.')->group(f
     Route::post('admin/products/{model}', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'update'])->name('products.update');
     Route::delete('admin/products/{model}', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
 });
+
+
 
 Route::middleware(['web','auth', 'splade', 'verified'])->name('admin.')->group(function () {
     Route::get('admin/product-reviews/api', [\TomatoPHP\TomatoProducts\Http\Controllers\ProductReviewController::class, 'api'])->name('product-reviews.api');

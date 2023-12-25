@@ -111,6 +111,28 @@
                                             :label="__('Product Reviews')"
                                             icon="bx bx-star"
                                         />
+                                        @if(class_exists(\TomatoPHP\TomatoInventory\Facades\TomatoInventory::class))
+                                            <li class="whitespace-nowrap py-2 flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-900 px-4">
+                                                <a target="_blank" href="{{route('admin.inventories.print.products')}}?product_id={{$item->id}}"
+                                                   class="relative flex justify-center gap-2 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 text-gray-600 dark:text-gray-200 hover:text-black text-gray-600 dark:text-gray-200 hover:text-primary-500">
+                                                    <div class="flex flex-col items-center justify-center">
+                                                        <i class="bx bxs-chart text-sm"></i>
+                                                    </div>
+                                                    <div class="text-sm"> {{__('Print Product Inventory Report')}} </div>
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @if(class_exists(\TomatoPHP\TomatoOrders\Facades\TomatoOrdering::class))
+                                            <li class="whitespace-nowrap py-2 flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-900 px-4">
+                                                <a target="_blank" href="{{route('admin.products.print.orders')}}?product_id={{$item->id}}"
+                                                   class="relative flex justify-center gap-2 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 text-gray-600 dark:text-gray-200 hover:text-black text-gray-600 dark:text-gray-200 hover:text-primary-500">
+                                                    <div class="flex flex-col items-center justify-center">
+                                                        <i class="bx bxs-rocket text-sm"></i>
+                                                    </div>
+                                                    <div class="text-sm"> {{__('Print Product Orders Report')}} </div>
+                                                </a>
+                                            </li>
+                                        @endif
                                         <x-tomato-admin-dropdown-item
                                             :href="route('admin.products.destroy', $item->id)"
                                             confirm="{{trans('tomato-admin::global.crud.delete-confirm')}}"
@@ -213,26 +235,17 @@
                         </div>
                     </div>
                     <div class="flex flex-col gap-4 px-4 my-4">
-                        <div class="grid grid-cols-8 gap-4">
-                            <x-tomato-admin-tooltip :class="!auth('web')->user()->can('admin.products.update') ? 'col-span-8' : 'col-span-5'" text="{{__('Product Main Category')}}">
-                                <x-splade-select
-                                    :disabled="!auth('web')->user()->can('admin.products.update')"
-                                    name="category_id"
-                                    :options="\TomatoPHP\TomatoCategory\Models\Category::where('for', 'product-categories')->get()"
-                                    option-label="name"
-                                    option-value="id"
-                                    choices
-                                    :placeholder="__('Categories')"
-                                />
-                            </x-tomato-admin-tooltip>
-                            @if(auth('web')->user()->can('admin.products.update'))
-                                <div class="col-span-3">
-                                    <x-splade-link modal :href="route('admin.products.category.create')" class="flex flex-col items-center justify-center rounded-lg border border-gray-300 dark:border-gray-700 shadow-sm dark:text-white py-2 px-4 h-full w-full text-center   text-sm">
-                                        {{ __('Add Category') }}
-                                    </x-splade-link>
-                                </div>
-                            @endif
-                        </div>
+                        <x-tomato-admin-tooltip :class="!auth('web')->user()->can('admin.products.update') ? 'col-span-8' : 'col-span-5'" text="{{__('Product Main Category')}}">
+                            <x-splade-select
+                                :disabled="!auth('web')->user()->can('admin.products.update')"
+                                name="category_id"
+                                :options="\TomatoPHP\TomatoCategory\Models\Category::where('for', 'product-categories')->get()"
+                                option-label="name"
+                                option-value="id"
+                                choices
+                                :placeholder="__('Categories')"
+                            />
+                        </x-tomato-admin-tooltip>
                     </div>
                     @if(auth('web')->user()->can('admin.products.update'))
                         <button class="py-3 px-4 border-t border-gray-200 dark:border-gray-700 font-bold w-full text-center bg-primary-500 dark:bg-gray-700 text-white text-sm rounded-b-lg" type="submit">
@@ -249,9 +262,14 @@
             @if(isset($emptyState) && !!$emptyState)
                 {{ $emptyState }}
             @else
-                <p class="text-gray-700 px-6 py-12 font-medium text-sm text-center">
-                    {{ __('There are no items to show.') }}
-                </p>
+                <div class="py-12">
+                    <div class="flex flex-col justify-center items-center my-2 text-danger-500">
+                        <x-heroicon-s-x-circle class="w-16 h-16" />
+                    </div>
+                    <p class="text-gray-700 dark:text-gray-200 px-6  font-medium text-sm text-center">
+                        {{ __('There are no items to show.') }}
+                    </p>
+                </div>
             @endif
         </div>
     </div>

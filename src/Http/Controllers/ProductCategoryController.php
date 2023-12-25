@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use ProtoneMedia\Splade\Facades\Toast;
 use TomatoPHP\TomatoCategory\Models\Category;
 use TomatoPHP\TomatoCategory\Models\Type;
+use TomatoPHP\TomatoProducts\Models\Product;
 use TomatoPHP\TomatoTranslations\Services\HandelTranslationInput;
 
 class ProductCategoryController extends Controller
@@ -105,4 +106,39 @@ class ProductCategoryController extends Controller
         Toast::success(__('Category deleted successfully'))->autoDismiss(2);
         return back();
     }
+
+    public function category(Request $request)
+    {
+        $request->validate([
+           "ids" => "required|string"
+        ]);
+
+        $ids = explode(',', $request->get('ids'));
+        $categories = Category::where('for', 'product-categories')->get();
+
+        return view('tomato-products::product-categories.attach', [
+            "categories" => $categories,
+            "ids" => $ids,
+        ]);
+    }
+
+    public function attach(Request $request)
+    {
+        $request->validate([
+            "ids" => "required|array|min:1",
+            "ids*"=> "required|exists:products,id",
+            "category_id" => "required|exists:categories,id"
+        ]);
+
+        $products = Product::whereIn('id', $request->get('ids'))->get();
+        foreach ($products as $product){
+            $product->category_id = $request->get('category_id');
+            $product->save();
+        }
+
+        Toast::success(__('Product Categories has been updated'))->autoDismiss(2);
+        return back();
+    }
+
+
 }

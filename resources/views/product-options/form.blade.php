@@ -7,7 +7,7 @@
             <x-tomato-translation label="{{__('Name')}}" placeholder="{{__('Name')}}" name="name" />
             <x-splade-input label="{{__('Key')}}" placeholder="{{__('Key')}}" name="key" />
             <div class="flex justify-between gap-4">
-                <x-splade-input class="w-full" label="{{__('Icon')}}" placeholder="{{__('Icon')}}" name="icon" />
+                <x-tomato-admin-icon class="w-full" label="{{__('Icon')}}" placeholder="{{__('Icon')}}" name="icon" />
                 <x-tomato-admin-color  label="{{__('Color')}}" placeholder="{{__('Color')}}" name="color" />
             </div>
         </div>

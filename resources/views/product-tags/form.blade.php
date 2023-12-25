@@ -15,7 +15,7 @@
             <x-splade-input label="{{__('Name [EN]')}}" placeholder="{{__('Name [EN]')}}"  @input="form.slug = form.name?.en.replaceAll(' ', '-').toLowerCase()" name="name.en" />
             <x-splade-input label="{{__('Slug')}}" placeholder="{{__('Slug')}}" name="slug" />
             <div class="flex justify-between gap-4">
-                <x-splade-input class="w-full" label="{{__('Icon')}}" placeholder="{{__('Icon')}}" name="icon" />
+                <x-tomato-admin-icon class="w-full" label="{{__('Icon')}}" placeholder="{{__('Icon')}}" name="icon" />
                 <x-tomato-admin-color  label="{{__('Color')}}" placeholder="{{__('Color')}}" name="color" />
             </div>
             <div class="flex justify-between gap-4">
