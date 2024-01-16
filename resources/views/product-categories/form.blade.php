@@ -26,7 +26,7 @@
 
         <div class="flex justify-start gap-4">
             <x-tomato-admin-submit spinner :label="__('Save')" />
-            @if($item)
+            @isset($item)
             <x-tomato-admin-button danger :href="route('admin.products.category.delete', $item->id)"
                                    confirm="{{trans('tomato-admin::global.crud.delete-confirm')}}"
                                    confirm-text="{{trans('tomato-admin::global.crud.delete-confirm-text')}}"
