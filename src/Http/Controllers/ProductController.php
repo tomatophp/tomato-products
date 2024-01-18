@@ -255,7 +255,7 @@ class ProductController extends Controller
         $collection = Excel::toArray(new ImportProducts(), $request->file('file'));
         unset($collection[0][0]);
         foreach ($collection[0] as $item){
-            $checkIfProductExists = Product::where('sku', $item[1])->where('barcode', $item[2])->first();
+            $checkIfProductExists = Product::where('sku', $item[1])->orWhere('barcode', $item[2])->first();
             if($checkIfProductExists){
                 $checkIfProductExists->name = $item[0]??null;
                 $checkIfProductExists->slug = Str::of($item[0])->slug('-')??null;
