@@ -11,8 +11,7 @@
                 option-value="id"
                 choices
             />
-            <x-splade-input label="{{__('Name [AR]')}}" placeholder="{{__('Name [AR]')}}"  @input="form.slug = form.name?.ar.replaceAll(' ', '-').toLowerCase()" name="name.ar" />
-            <x-splade-input label="{{__('Name [EN]')}}" placeholder="{{__('Name [EN]')}}"  @input="form.slug = form.name?.en.replaceAll(' ', '-').toLowerCase()" name="name.en" />
+            <x-tomato-translation  label="{{__('Name')}}" @input="form.slug = form.name?.en.replaceAll(' ', '-').toLowerCase()" name="name" :placeholder="__('Name')" />
             <x-splade-input label="{{__('Slug')}}" placeholder="{{__('Slug')}}" name="slug" />
             <div class="flex justify-between gap-4">
                 <x-tomato-admin-icon class="w-full" label="{{__('Icon')}}" placeholder="{{__('Icon')}}" name="icon" />

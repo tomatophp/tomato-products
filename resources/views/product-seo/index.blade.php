@@ -19,12 +19,11 @@
         'brand' => $model->brand,
     ]">
         <div class="grid grid-cols-2 gap-4">
-            <x-tomato-admin-rich class="col-span-2" v-if="form.form_lang === 'ar'" :label="__('Description [AR]')" name="description.ar" :placeholder="__('Description [AR]')" />
-            <x-tomato-admin-rich class="col-span-2" v-if="form.form_lang === 'en'" :label="__('Description [EN]')" name="description.en" :placeholder="__('Description [EN]')" />
-            <x-tomato-admin-rich class="col-span-2" v-if="form.form_lang === 'ar'" :label="__('Details [AR]')" name="details.ar" :placeholder="__('Details [AR]')" />
-            <x-tomato-admin-rich class="col-span-2" v-if="form.form_lang === 'en'" :label="__('Details [EN]')" name="details.en" :placeholder="__('Details [EN]')" />
-            <x-splade-textarea class="col-span-2" v-if="form.form_lang === 'ar'" :label="__('Keywords [AR]')" name="keywords.ar" :placeholder="__('Keywords [AR]')" />
-            <x-splade-textarea class="col-span-2" v-if="form.form_lang === 'en'" :label="__('Keywords [EN]')" name="keywords.en" :placeholder="__('Keywords [EN]')" />
+            <div class="col-span-2">
+                <x-tomato-translation type="rich" label="{{__('Description')}}" name="description" :placeholder="__('Description')" />
+                <x-tomato-translation type="rich" label="{{__('Details')}}" name="details" :placeholder="__('Details')" />
+                <x-tomato-translation textarea label="{{__('Keywords')}}" name="keywords" :placeholder="__('Keywords')" />
+            </div>
 
             <x-splade-select :label="__('Main Category')"
                              :placeholder="__('Main Category')"
@@ -63,9 +62,6 @@
 
         <div class="flex justify-start gap-2 pt-3">
             <x-tomato-admin-submit label="{{__('Save')}}" :spinner="true" />
-            <x-tomato-admin-button type="button" @click.prevent="form.form_lang === 'ar' ? form.form_lang = 'en' : form.form_lang = 'ar'">
-                @{{ form.form_lang }}
-            </x-tomato-admin-button>
             <x-tomato-admin-button secondary @click.prevent="modal.close" label="{{__('Cancel')}}"/>
         </div>
     </x-splade-form>
