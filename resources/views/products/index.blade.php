@@ -1,7 +1,10 @@
 <x-tomato-admin-layout>
     <x-slot:header>
-        {{ __('Product') }}
+        {{ __('Products') }}
     </x-slot:header>
+    <x-slot:icon>
+        bx bxs-cart
+    </x-slot:icon>
     <x-slot:buttons>
         <x-tomato-admin-button :modal="true" :href="route('admin.products.create')" type="link">
             {{trans('tomato-admin::global.crud.create-new')}} {{__('Product')}}
@@ -17,16 +20,16 @@
         <div class="mx-auto">
             <x-splade-table :for="$table" striped custom-body custom-body-view="tomato-products::products.list">
                 <x-slot:header>
-                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-3">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                         @foreach($categories as $category)
-                            <div class="relative border border-gray-200 dark:bg-gray-800 dark:border-gray-700 p-4 rounded-lg bg-white @if(isset(request()->get('filter')['category_id']) && request()->get('filter')['category_id'] == $category->id) ring-2 ring-primary-500 @endif">
+                            <div class="relative border  dark:bg-zinc-800  p-4 rounded-lg bg-white @if(isset(request()->get('filter')['category_id']) && request()->get('filter')['category_id'] == $category->id) border-primary-600 @else border-zinc-200 dark:border-zinc-700 @endif">
                                 <x-splade-link :href="route('admin.products.category.edit', $category->id)" modal class="absolute top-3 rtl:right-3 ltr:left-3 text-warning-500">
                                     <i class="bx bx-edit"></i>
                                 </x-splade-link>
 
                                 <div @click.prevent="table.updateQuery('filter[category_id]', @js($category->id))" class="flex flex-col items-center justify-center cursor-pointer">
                                     @if($category->getMedia('image')->first())
-                                        <div class="bg-cover w-16 h-16 bg-center rounded-full border-gray-200 dark:border-gray-700" style="background-image: url('{{$category->getMedia('image')->first()?->getUrl()}}')">
+                                        <div class="bg-cover w-16 h-16 bg-center rounded-full border-zinc-200 dark:border-zinc-700" style="background-image: url('{{$category->getMedia('image')->first()?->getUrl()}}')">
 
                                         </div>
                                     @elseif($category->icon)
@@ -40,11 +43,11 @@
                                     @endif
 
                                     <h1 class="font-bold text-2xl">{{$category->name}}</h1>
-                                    <h1 class="text-gray-400 text-sm">{{\TomatoPHP\TomatoProducts\Models\Product::where('category_id', $category->id)->count()}} {{__('Product')}}</h1>
+                                    <h1 class="text-zinc-400 text-sm">{{\TomatoPHP\TomatoProducts\Models\Product::where('category_id', $category->id)->count()}} {{__('Product')}}</h1>
                                 </div>
                             </div>
                         @endforeach
-                        <x-splade-link modal :href="route('admin.products.category.create')" class="border border-gray-200 dark:border-gray-700 px-4 py-8 rounded-lg bg-primary-500 text-white flex flex-col items-center justify-center">
+                        <x-splade-link modal :href="route('admin.products.category.create')" class="border border-zinc-200 dark:border-zinc-700 px-4 py-8 rounded-lg bg-primary-500 dark:bg-zinc-800 text-white flex flex-col items-center justify-center">
                             <i class="bx bx-plus-circle bx-lg"></i>
                             <h1 class="font-bold text-xl">{{__('Create Category')}}</h1>
                         </x-splade-link>

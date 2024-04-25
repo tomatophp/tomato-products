@@ -22,7 +22,7 @@
                 <div class="w-full flex flex-col gap-4">
                     <div v-for="(item, key) in response">
                         <x-splade-toggle>
-                            <button :class="{'bg-primary-200  rounded-t-lg ' : toggled , 'bg-gray-100  rounded-lg ' : !toggled}" class="flex justify-between gap-4 p-4 w-full" @click.prevent="toggle">
+                            <button :class="{'bg-primary-600 dark:bg-zinc-700 rounded-t-lg ' : toggled , 'bg-zinc-100 dark:bg-zinc-900 dark:text-white  rounded-lg ' : !toggled}" class="flex justify-between gap-4 p-4 w-full" @click.prevent="toggle">
                                 <div class="flex justify-start gap-2">
                                     <div class="flex flex-col justify-center items-center">
                                         <i class="bx bxs-plus-square"></i>
@@ -43,7 +43,7 @@
                                     </div>
                                 </div>
                             </button>
-                            <div class="border border-primary-200 grid grid-cols-4 gap-4 p-4 rounded-b-lg" v-show="toggled">
+                            <div class="border border-primary-600 dark:border-zinc-700 grid grid-cols-4 gap-4 p-4 rounded-b-lg" v-show="toggled">
                                 <x-splade-input label="{{__('Price')}}" v-model="form.qty[item.toString()+',price']" class="col-span-4" :placeholder="__('Price')" type="number" />
                                 <x-splade-input label="{{__('Discount')}}" v-model="form.qty[item.toString()+',discount']" class="col-span-2" :placeholder="__('Discount')" type="number" />
                                 <x-splade-input label="{{__('Discount To')}}" date time v-model="form.qty[item.toString()+',discount_to']" class="col-span-2" :placeholder="__('Discount To')" type="number" />

@@ -30,10 +30,14 @@ class ProductUpdateRequest extends FormRequest
             'barcode' => 'nullable|max:255|min:1|unique:products,barcode,'. $this->route("model")->id,
             'type' => 'nullable|max:255|min:1',
             'about' => 'nullable|max:255|min:1',
-            'price' => 'sometimes|min:1',
-            'discount' => 'nullable|min:1',
-            'discount_to' => 'nullable|min:1',
-            'vat' => 'nullable|min:1',
+            'price' => 'sometimes|min:0|numeric|not_in:0',
+            'discount' => ['nullable','min:0','numeric', function ($attribute, $value, $fail) {
+                if ($value > $this->input('price')) {
+                    $fail('The discount must be less than the price.');
+                }
+            }],
+            'discount_to' => 'nullable|min:0|numeric',
+            'vat' => 'nullable|min:0|numeric',
             'description' => 'nullable|min:1',
             'details' => 'nullable|min:1',
             'category_id' => 'nullable|min:1|exists:categories,id',

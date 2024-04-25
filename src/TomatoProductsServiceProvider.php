@@ -60,7 +60,7 @@ class TomatoProductsServiceProvider extends ServiceProvider
                 ->group(__('Products'))
                 ->route('admin.products.index')
                 ->label(__('Products'))
-                ->icon('bx bxs-cart-alt'),
+                ->icon('bx bxs-cart'),
         ]);
     }
 }

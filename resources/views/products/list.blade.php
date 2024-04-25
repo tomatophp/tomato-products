@@ -1,8 +1,8 @@
-<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+<div class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-3 mt-4">
     @foreach($table->resource as $itemKey => $item)
         @php $itemPrimaryKey = $table->findPrimaryKey($item) @endphp
            <x-splade-form method="POST" preserve-scroll  action="{{route('admin.products.update', $item->id)}}" :default="array_merge($item->toArray(), ['stock' => $item->meta('stock')])">
-                <div class="rounded-lg bg-white dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 border border-gray-200 shadow-sm">
+                <div class="rounded-lg bg-white dark:bg-zinc-900 dark:text-zinc-200 dark:border-zinc-700 border border-zinc-200 shadow-sm">
                     <div class="flex justify-between gap-4  p-4 ">
                         <div class="flex justify-start gap-2">
                             @if($hasBulkActions = $table->hasBulkActions())
@@ -12,7 +12,7 @@
                                         @change="(e) => table.setSelectedItem(@js($itemPrimaryKey), e.target.checked)"
                                         :checked="table.itemIsSelected(@js($itemPrimaryKey))"
                                         :disabled="table.allItemsFromAllPagesAreSelected"
-                                        class="rounded dark:bg-gray-500 border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50"
+                                        class="rounded dark:bg-zinc-500 border-zinc-300 dark:border-zinc-600 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 disabled:opacity-50"
                                         name="table-row-bulk-action"
                                         type="checkbox"
                                         value="{{ $itemPrimaryKey }}"
@@ -40,7 +40,7 @@
                                                     <i class="bx bx-pin"></i>
                                                 </div>
                                             @else
-                                                <div class="bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-400 text-gray-300 rounded-full flex flex-col items-center justify-center p-2">
+                                                <div class="bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-600 dark:text-zinc-400 text-zinc-300 rounded-full flex flex-col items-center justify-center p-2">
                                                     <i class="bx bx-pin"></i>
                                                 </div>
                                             @endif
@@ -112,9 +112,9 @@
                                             icon="bx bx-star"
                                         />
                                         @if(class_exists(\TomatoPHP\TomatoInventory\Facades\TomatoInventory::class))
-                                            <li class="whitespace-nowrap py-2 flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-900 px-4">
+                                            <li class="whitespace-nowrap py-2 flex items-center justify-between hover:bg-zinc-100 dark:hover:bg-zinc-900 px-4">
                                                 <a target="_blank" href="{{route('admin.inventories.print.products')}}?product_id={{$item->id}}"
-                                                   class="relative flex justify-center gap-2 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 text-gray-600 dark:text-gray-200 hover:text-black text-gray-600 dark:text-gray-200 hover:text-primary-500">
+                                                   class="relative flex justify-center gap-2 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 text-zinc-600 dark:text-zinc-200 hover:text-black text-zinc-600 dark:text-zinc-200 hover:text-primary-500">
                                                     <div class="flex flex-col items-center justify-center">
                                                         <i class="bx bxs-chart text-sm"></i>
                                                     </div>
@@ -123,9 +123,9 @@
                                             </li>
                                         @endif
                                         @if(class_exists(\TomatoPHP\TomatoOrders\Facades\TomatoOrdering::class))
-                                            <li class="whitespace-nowrap py-2 flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-900 px-4">
+                                            <li class="whitespace-nowrap py-2 flex items-center justify-between hover:bg-zinc-100 dark:hover:bg-zinc-900 px-4">
                                                 <a target="_blank" href="{{route('admin.products.print.orders')}}?product_id={{$item->id}}"
-                                                   class="relative flex justify-center gap-2 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 text-gray-600 dark:text-gray-200 hover:text-black text-gray-600 dark:text-gray-200 hover:text-primary-500">
+                                                   class="relative flex justify-center gap-2 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 text-zinc-600 dark:text-zinc-200 hover:text-black text-zinc-600 dark:text-zinc-200 hover:text-primary-500">
                                                     <div class="flex flex-col items-center justify-center">
                                                         <i class="bx bxs-rocket text-sm"></i>
                                                     </div>
@@ -154,7 +154,7 @@
                     </div>
                     <div class="grid grid-cols-8 gap-4 px-4">
                         <div class="col-span-2">
-                            <div class="bg-cover bg-center w-full h-full rounded-md" style="background-image: url('{{$item->getMedia('featured_image')->first()?->getUrl() ?: url('placeholder.webp')}}')" >
+                            <div class="bg-cover bg-center w-full h-full rounded-md" style="background-image: url('{{$item->getMedia('featured_image')->first()?->getUrl() ?: "https://ui-avatars.com/api/?name=".$item->name}}')" >
                                 <x-tomato-admin-tooltip text="{{__('Update Product Media')}}" >
                                     @if(auth('web')->user()->can('admin.products.actions.media'))
                                         <x-splade-link modal :href="route('admin.products.actions.media', $item->id)" class="relative top-2 left-2 w-6 h-6 text-white text-center flex flex-col items-center justify-center rounded-full bg-success-600">
@@ -176,9 +176,9 @@
                                     <x-slot:prepend>
 
                                         @if($item->type === 'digital')
-                                            <i class="bx bx-game text-gray-400"></i>
+                                            <i class="bx bx-game text-zinc-400"></i>
                                         @else
-                                            <i class="bx bx-package text-gray-400"></i>
+                                            <i class="bx bx-package text-zinc-400"></i>
                                         @endif
                                     </x-slot:prepend>
                                 </x-splade-input>
@@ -192,7 +192,7 @@
                                 :placeholder="__('Price')"
                             >
                                 <x-slot:prepend>
-                                        <i class="bx bx-money text-gray-400"></i>
+                                        <i class="bx bx-money text-zinc-400"></i>
                                 </x-slot:prepend>
 
                                 <x-slot:append>
@@ -212,25 +212,25 @@
                                 :placeholder="__('QTY on Stock')"
                             >
                                 <x-slot:prepend>
-                                    <i class="bx bx-box text-gray-400"></i>
+                                    <i class="bx bx-box text-zinc-400"></i>
                                 </x-slot:prepend>
                             </x-splade-input>
                             </x-tomato-admin-tooltip>
                             @if(auth('web')->user()->can('admin.products.actions.alerts'))
                                 <x-tomato-admin-tooltip text="{{__('Update Product Alerts')}}">
-                                    <x-splade-link modal :href="route('admin.products.actions.alerts', $item->id)" class="flex flex-col items-center justify-center rounded-lg  border border-gray-300 dark:border-gray-700 shadow-sm dark:text-white py-2 px-4 h-full w-full text-center   text-sm">
+                                    <x-splade-link modal :href="route('admin.products.actions.alerts', $item->id)" class="flex flex-col items-center justify-center rounded-lg  border border-zinc-300 dark:border-zinc-700 shadow-sm dark:text-white py-2 px-4 h-full w-full text-center   text-sm">
                                             <i class="bx bx-bell-plus"></i>
                                     </x-splade-link>
                                 </x-tomato-admin-tooltip>
                                 <x-tomato-admin-tooltip text="{{__('Product Has Unlimited Stock')}}">
-                                    <button @click.prevent="form.has_unlimited_stock = !@js($item->has_unlimited_stock); form.submit()" :class="{'bg-primary-600 text-white border-primary-500' : @js($item->has_unlimited_stock), 'border-gray-300':!@js($item->has_unlimited_stock)}" class="flex flex-col items-center justify-center rounded-lg  border  dark:border-gray-700 shadow-sm dark:text-white py-2 px-4 h-full w-full text-center   text-sm">
+                                    <button @click.prevent="form.has_unlimited_stock = !@js($item->has_unlimited_stock); form.submit()" :class="{'bg-primary-600 text-white border-primary-500' : @js($item->has_unlimited_stock), 'border-zinc-300':!@js($item->has_unlimited_stock)}" class="flex flex-col items-center justify-center rounded-lg  border  dark:border-zinc-700 shadow-sm dark:text-white py-2 px-4 h-full w-full text-center   text-sm">
                                         <i class="bx bx-infinite"></i>
                                     </button>
                                 </x-tomato-admin-tooltip>
                             @endif
                             @if(auth('web')->user()->can('admin.products.actions.options'))
                                 <div class="col-span-2">
-                                    <x-splade-link  modal :href="route('admin.products.actions.options', $item->id)" class="flex flex-col items-center justify-center rounded-lg  border border-gray-300 dark:border-gray-700 shadow-sm dark:text-white py-2 px-4 h-full w-full text-center   text-sm">
+                                    <x-splade-link  modal :href="route('admin.products.actions.options', $item->id)" class="flex flex-col items-center justify-center rounded-lg  border border-zinc-300 dark:border-zinc-700 shadow-sm dark:text-white py-2 px-4 h-full w-full text-center   text-sm">
                                         {{__('Options')}}
                                     </x-splade-link>
                                 </div>
@@ -251,7 +251,7 @@
                         </x-tomato-admin-tooltip>
                     </div>
                     @if(auth('web')->user()->can('admin.products.update'))
-                        <button class="py-3 px-4 border-t border-gray-200 dark:border-gray-700 font-bold w-full text-center bg-primary-500 dark:bg-gray-700 text-white text-sm rounded-b-lg" type="submit">
+                        <button class="py-3 px-4 border-t border-zinc-200 dark:border-zinc-700 font-bold w-full text-center bg-primary-500 dark:bg-zinc-700 text-white text-sm rounded-b-lg" type="submit">
                             {{__('Save')}}
                         </button>
                     @endif
@@ -260,7 +260,7 @@
     @endforeach
 </div>
 @if($table->resource->isEmpty())
-    <div class="bg-white rounded-lg mt-4">
+    <div class="bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg mt-4">
         <div class="whitespace-nowrap">
             @if(isset($emptyState) && !!$emptyState)
                 {{ $emptyState }}
@@ -269,7 +269,7 @@
                     <div class="flex flex-col justify-center items-center my-2 text-danger-500">
                         <x-heroicon-s-x-circle class="w-16 h-16" />
                     </div>
-                    <p class="text-gray-700 dark:text-gray-200 px-6  font-medium text-sm text-center">
+                    <p class="text-zinc-700 dark:text-zinc-200 px-6  font-medium text-sm text-center">
                         {{ __('There are no items to show.') }}
                     </p>
                 </div>
